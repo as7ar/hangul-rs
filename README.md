@@ -1,3 +1,5 @@
+[![CI](https://github.com/as7ar/hangul-rs/actions/workflows/rust.yml/badge.svg)](https://github.com/as7ar/hangul-rs/actions/workflows/rust.yml)
+
 # About
 `hangul-rs`는 [`es-hangul`](https://github.com/toss/es-hangul)을 `Rust`로 재창작한 프로젝트입니다.
 
