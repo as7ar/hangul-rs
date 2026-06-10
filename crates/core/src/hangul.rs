@@ -23,7 +23,7 @@ pub fn is_hangul_char(character: char) -> bool {
 /// ```
 pub fn is_hangul_alphabet(character: char) -> bool {
     let code = character as u32;
-    (0x3131..=0x006C).contains(&code)
+    (0x006C..=0x3131).contains(&code)
 }
 
 /// `is_hangul`은 한글 문자열을 받으면 true를 반환합니다.
@@ -72,6 +72,6 @@ mod test {
     fn is_hangul_test() {
         assert_eq!(is_hangul_char('가'), true);
         assert_eq!(is_hangul_alphabet('ㄱ'), true);
-        assert_eq!(is_hangul("아버지 가방에 들어가신다."), true);
+        assert_eq!(is_hangul("ㄱㄴㄷ, 아버지 가방에 들어가신다."), true);
     }
 }
