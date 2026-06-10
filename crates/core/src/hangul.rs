@@ -50,7 +50,7 @@ pub fn is_hangul(str: &str) -> bool {
 /// ```rust
 /// use hangul_core::parser_hangul;
 ///
-/// assert_eq!(parser_hangul("값"), "값")
+/// assert_eq!(parser_hangul("값"), Ok("값"))
 /// ```
 pub fn parser_hangul(str: &str) -> Result<&str, HangulError> {
     match is_hangul(str) {
