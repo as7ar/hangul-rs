@@ -41,8 +41,29 @@ pub fn is_hangul(str: &str) -> bool {
             is_hangul_char(c)
                 || is_hangul_alphabet(c)
                 || c.is_whitespace() // 공백
-                || c.is_ascii_punctuation() // 구두점
+                || is_punctuation(c) // 구두점
         })
+}
+
+fn is_punctuation(c: char) -> bool {
+    matches!(
+        c,
+        ',' | '.'
+            | '!'
+            | '?'
+            | ':'
+            | ';'
+            | '\''
+            | '"'
+            | '，'
+            | '。'
+            | '！'
+            | '？'
+            | '：'
+            | '；'
+            | '…'
+            | '·'
+    )
 }
 
 /// `parser_hangul`은 한글 문자열을 받으면 그대로 반환하지만 아닌 값을 받으면 에러를 발생시킨다.
