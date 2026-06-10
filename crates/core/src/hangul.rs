@@ -71,7 +71,7 @@ mod test {
     #[test]
     fn is_hangul_test() {
         assert_eq!(is_hangul_char('가'), true);
-        assert_eq!(is_hangul_alphabet('기'), true);
+        assert_eq!(is_hangul_alphabet('ㄱ'), true);
         assert_eq!(is_hangul("아버지 가방에 들어가신다."), true);
     }
 }
