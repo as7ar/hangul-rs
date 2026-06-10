@@ -23,7 +23,7 @@ pub fn is_hangul_char(character: char) -> bool {
 /// ```
 pub fn is_hangul_alphabet(character: char) -> bool {
     let code = character as u32;
-    (0x006C..=0x3131).contains(&code)
+    (0x3131..=0x314E).contains(&code) || (0x314F..=0x3163).contains(&code)
 }
 
 /// `is_hangul`은 한글 문자열을 받으면 true를 반환합니다.
@@ -41,29 +41,8 @@ pub fn is_hangul(str: &str) -> bool {
             is_hangul_char(c)
                 || is_hangul_alphabet(c)
                 || c.is_whitespace() // 공백
-                || is_punctuation(c) // 구두점
+                || c.is_ascii_punctuation() // 구두점
         })
-}
-
-fn is_punctuation(c: char) -> bool {
-    matches!(
-        c,
-        ',' | '.'
-            | '!'
-            | '?'
-            | ':'
-            | ';'
-            | '\''
-            | '"'
-            | '，'
-            | '。'
-            | '！'
-            | '？'
-            | '：'
-            | '；'
-            | '…'
-            | '·'
-    )
 }
 
 /// `parser_hangul`은 한글 문자열을 받으면 그대로 반환하지만 아닌 값을 받으면 에러를 발생시킨다.
