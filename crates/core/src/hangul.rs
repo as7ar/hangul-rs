@@ -23,7 +23,8 @@ pub fn is_hangul_char(character: char) -> bool {
 /// ```
 pub fn is_hangul_alphabet(character: char) -> bool {
     let code = character as u32;
-    (0x3131..=0x314E).contains(&code) || (0x314F..=0x3163).contains(&code)
+    (0x3131..=0x314E).contains(&code) // 자음
+    || (0x314F..=0x3163).contains(&code) // 모음
 }
 
 /// `is_hangul`은 한글 문자열을 받으면 true를 반환합니다.
