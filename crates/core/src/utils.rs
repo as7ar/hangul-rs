@@ -10,3 +10,7 @@ pub fn join_str(args: &[&str]) -> String {
 pub fn is_blank(str: &str) -> bool {
     str.chars().all(|c| c.is_whitespace())
 }
+
+pub fn defined<T>(value: Option<T>) -> T {
+    value.expect("Value is undefined")
+}
