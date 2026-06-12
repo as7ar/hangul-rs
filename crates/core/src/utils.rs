@@ -141,7 +141,7 @@ pub enum NumOfBatchim {
 /// has_batchim은 한글 문자열 마지막에 받침이 있는 지 확인합니다.
 ///
 /// ```rust
-/// use hangul_core::{has_batchim, NumofBatchim};
+/// use hangul_core::{has_batchim, NumOfBatchim};
 ///
 /// assert_eq!(has_batchim("값", NumOfBatchim::SINGLE), false);
 /// assert_eq!(has_batchim("값", NumOfBatchim::DOUBLE), true);
