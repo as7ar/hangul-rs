@@ -1,4 +1,7 @@
-use crate::err::HangulError;
+use crate::{
+    can_be_jungseong, combine_character, combine_vowels, disassemble_complete_character,
+    disassembles, err::HangulError, AssembleErr, CHOSEONGS,
+};
 
 /// `is_hangul_char`는 완전한 한글 문자를 받으면 true를 반환합니다.
 ///
@@ -60,10 +63,65 @@ pub fn parser_hangul(str: &str) -> Result<&str, HangulError> {
     }
 }
 
-pub fn binary_assemble_alphabets() {}
-pub fn link_hangul_characters() {}
-pub fn binary_assemble_characters() {}
-pub fn binary_assemble() {}
+/// get_choseong은 단어에서 초성을 추출합니다.
+///
+/// ```rust
+/// use hangul_core::get_choseong;
+///
+/// assert_eq!(get_choseong("사과"), "ㅅㄱ")
+/// assert_eq!(get_choseong("띄어 쓰기"), "ㄸㅇ ㅆㄱ")
+/// ```
+pub fn get_choseong(words: &str) -> String {
+    let chars = words.chars();
+    let mut result = String::new();
+
+    for c in chars {
+        if c.is_whitespace() {
+            result.push(c);
+            continue;
+        }
+
+        if CHOSEONGS.contains(&c) {
+            result.push(c);
+            continue;
+        }
+
+        if let Some(disassembled) = disassemble_complete_character(c) {
+            result.push(disassembled.choseong);
+        }
+    }
+
+    result
+}
+
+/// binary_assemble_alphabets는 두개의 한글 자모를 하나로 합칩니다.
+///
+/// ```rust
+/// use hangul_core::binary_assemble_alphabets;
+///
+/// assert_eq!(binary_assemble_alphabets('ㄱ', 'ㅏ').unwrap(), "가")
+/// assert_eq!(binary_assemble_alphabets('ㅗ', 'ㅏ').unwrap(), "ㅘ")
+/// ```
+pub fn binary_assemble_alphabets(c1: &str, c2: &str) -> Result<String, AssembleErr> {
+    if can_be_jungseong(format!("{}{}", c1, c2).as_str()) {
+        return Ok(combine_vowels(c1, c2));
+    }
+
+    if !can_be_jungseong(c1) && can_be_jungseong(c2) {
+        return combine_character(c1, c2, None);
+    }
+
+    Ok(format!("{}{}", c1, c2))
+}
+
+pub fn link_hangul_characters(c1: &str, c2: &str) -> Result<String, AssembleErr> {
+    let c1 = disassembles(c1);
+    let c2 = disassembles(c2);
+
+    Ok(String::new())
+}
+pub fn binary_assemble_characters(c1: &str, c2: &str) {}
+pub fn binary_assemble(c1: &str, c2: &str) {}
 
 #[cfg(test)]
 mod test {

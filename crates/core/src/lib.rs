@@ -1,4 +1,5 @@
 mod assemble;
+mod combine;
 pub mod constants;
 mod disassemble;
 mod err;
@@ -7,6 +8,7 @@ mod utils;
 
 pub use err::*;
 
+pub use crate::combine::*;
 pub use crate::constants::*;
 pub use crate::disassemble::*;
 pub use crate::hangul::*;
