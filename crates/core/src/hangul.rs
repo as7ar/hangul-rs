@@ -100,8 +100,8 @@ pub fn get_choseong(words: &str) -> String {
 /// ```rust
 /// use hangul_core::binary_assemble_alphabets;
 ///
-/// assert_eq!(binary_assemble_alphabets('ㄱ', 'ㅏ').unwrap(), "가");
-/// assert_eq!(binary_assemble_alphabets('ㅗ', 'ㅏ').unwrap(), "ㅘ");
+/// assert_eq!(binary_assemble_alphabets("ㄱ", "ㅏ").unwrap(), "가");
+/// assert_eq!(binary_assemble_alphabets("ㅗ", "ㅏ").unwrap(), "ㅘ");
 /// ```
 pub fn binary_assemble_alphabets(c1: &str, c2: &str) -> Result<String, AssembleErr> {
     if can_be_jungseong(&format!("{}{}", c1, c2)) {
