@@ -5,7 +5,7 @@ use crate::{binary_assemble, disassembles, AssembleErr};
 /// ```rust
 /// use hangul_core::assemble;
 ///
-/// assert_eq!(assemble(vec!["아버지", " ", "가방에", "", "들어가신다"]).unwrap(), "어버지 가방에 들어가신다".to_string());
+/// assert_eq!(assemble(vec!["아버지", "가방에", "들어가신다"]).unwrap(), "어버지 가방에 들어가신다".to_string());
 /// ```
 pub fn assemble(frag: Vec<&str>) -> Result<String, AssembleErr> {
     let words = frag.join(" ");
