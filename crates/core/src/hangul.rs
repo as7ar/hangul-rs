@@ -133,7 +133,7 @@ pub fn link_hangul_characters(source: &str, next_character: &str) -> Result<Stri
 /// binary_assemble_characters는 인자로 받은 한글 2개를 합성합니다.
 ///
 /// ```rust
-/// use crate::binary_assemble_characters;
+/// use hangul_core::binary_assemble_characters;
 ///
 /// assert_eq!(binary_assemble_characters('ㄱ', 'ㅏ').unwrap(), "가".to_string());
 /// assert_eq!(binary_assemble_characters('갑', 'ㅅ').unwrap(), "값".to_string());
