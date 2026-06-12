@@ -55,7 +55,7 @@ pub fn is_hangul(str: &str) -> bool {
 /// ```rust
 /// use hangul_core::parser_hangul;
 ///
-/// assert_eq!(parser_hangul("값").unwrap(), "값")
+/// assert_eq!(parser_hangul("값").unwrap(), "값");
 /// ```
 pub fn parser_hangul(str: &str) -> Result<&str, HangulError> {
     match is_hangul(str) {
@@ -69,8 +69,8 @@ pub fn parser_hangul(str: &str) -> Result<&str, HangulError> {
 /// ```rust
 /// use hangul_core::get_choseong;
 ///
-/// assert_eq!(get_choseong("사과"), "ㅅㄱ")
-/// assert_eq!(get_choseong("띄어 쓰기"), "ㄸㅇ ㅆㄱ")
+/// assert_eq!(get_choseong("사과"), "ㅅㄱ");
+/// assert_eq!(get_choseong("띄어 쓰기"), "ㄸㅇ ㅆㄱ");
 /// ```
 pub fn get_choseong(words: &str) -> String {
     let chars = words.chars();
@@ -100,8 +100,8 @@ pub fn get_choseong(words: &str) -> String {
 /// ```rust
 /// use hangul_core::binary_assemble_alphabets;
 ///
-/// assert_eq!(binary_assemble_alphabets('ㄱ', 'ㅏ').unwrap(), "가")
-/// assert_eq!(binary_assemble_alphabets('ㅗ', 'ㅏ').unwrap(), "ㅘ")
+/// assert_eq!(binary_assemble_alphabets('ㄱ', 'ㅏ').unwrap(), "가");
+/// assert_eq!(binary_assemble_alphabets('ㅗ', 'ㅏ').unwrap(), "ㅘ");
 /// ```
 pub fn binary_assemble_alphabets(c1: &str, c2: &str) -> Result<String, AssembleErr> {
     if can_be_jungseong(&format!("{}{}", c1, c2)) {
@@ -135,8 +135,8 @@ pub fn link_hangul_characters(source: &str, next_character: &str) -> Result<Stri
 /// ```rust
 /// use crate::binary_assemble_characters;
 ///
-/// assert_eq!(binary_assemble_characters('ㄱ', 'ㅏ').unwrap(), "가".to_string())
-/// assert_eq!(binary_assemble_characters('갑', 'ㅅ').unwrap(), "값".to_string())
+/// assert_eq!(binary_assemble_characters('ㄱ', 'ㅏ').unwrap(), "가".to_string());
+/// assert_eq!(binary_assemble_characters('갑', 'ㅅ').unwrap(), "값".to_string());
 /// ```
 pub fn binary_assemble_characters(c1: char, c2: char) -> Result<String, AssembleErr> {
     if !is_hangul_char(c1) && !is_hangul_alphabet(c1) {
@@ -219,8 +219,8 @@ pub fn binary_assemble_characters(c1: char, c2: char) -> Result<String, Assemble
 /// ```rust
 /// use hangul_core::binary_assemble;
 ///
-/// assert_eq!(binary_assemble("사고","ㅏ").unwrap(), "사과".to_string())
-/// assert_eq!(binary_assemble("저는 고양이를 좋아합닏","ㅏ").unwrap(), "저는 고양이를 좋아합니다".to_string())
+/// assert_eq!(binary_assemble("사고","ㅏ").unwrap(), "사과".to_string());
+/// assert_eq!(binary_assemble("저는 고양이를 좋아합닏","ㅏ").unwrap(), "저는 고양이를 좋아합니다".to_string());
 /// ```
 pub fn binary_assemble(c1: &str, c2: &str) -> Result<String, AssembleErr> {
     let mut chars = c1.chars();

@@ -9,9 +9,9 @@ use crate::{
 /// ```rust
 /// use hangul_core::combine_character;
 ///
-/// assert_eq!(combine_character("ㄱ", "ㅏ", Some("ㅂㅅ")).unwrap(), "값")
-/// assert_eq!(combine_character("ㄱ", "ㅏ", Some("ㅄ")).unwrap(), "값")
-/// assert_eq!(combine_character("ㄱ", "ㅏ", None).unwrap(), "가")
+/// assert_eq!(combine_character("ㄱ", "ㅏ", Some("ㅂㅅ")).unwrap(), "값");
+/// assert_eq!(combine_character("ㄱ", "ㅏ", Some("ㅄ")).unwrap(), "값");
+/// assert_eq!(combine_character("ㄱ", "ㅏ", None).unwrap(), "가");
 /// ```
 pub fn combine_character(
     choseong: &str,

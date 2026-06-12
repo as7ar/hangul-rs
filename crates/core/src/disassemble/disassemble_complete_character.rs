@@ -37,7 +37,7 @@ impl fmt::Display for ReturnTypeDisassembleCompleteCharacter {
 /// ```rust
 /// use hangul_core::disassemble_complete_character;
 ///
-/// println!("값: {}", disassemble_complete_character('값').unwrap())
+/// println!("값: {}", disassemble_complete_character('값').unwrap());
 /// ```
 pub fn disassemble_complete_character(
     letter: char,

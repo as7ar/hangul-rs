@@ -25,7 +25,7 @@ pub fn defined<T>(value: Option<T>) -> T {
 /// ```rust
 /// use hangul_core::can_be_choseong;
 ///
-/// assert_eq!(can_be_choseong('ㄱ'), true);
+/// assert_eq!(can_be_choseong("ㄱ"), true);
 /// ```
 pub fn can_be_choseong(letter: &str) -> bool {
     letter.chars().all(|c| CHOSEONGS.contains(&c))
@@ -36,10 +36,10 @@ pub fn can_be_choseong(letter: &str) -> bool {
 /// ```rust
 /// use hangul_core::can_be_jungseong;
 ///
-/// assert_eq!(can_be_jungseong('ㄱ'), false);
-/// assert_eq!(can_be_jungseong('ㅏ'), true);
-/// assert_eq!(can_be_jungseong('ㅘ'), true);
-/// assert_eq!(can_be_jungseong('ㅗㅏ'), true);
+/// assert_eq!(can_be_jungseong("ㄱ"), false);
+/// assert_eq!(can_be_jungseong("ㅏ"), true);
+/// assert_eq!(can_be_jungseong("ㅘ"), true);
+/// assert_eq!(can_be_jungseong("ㅗㅏ"), true);
 /// ```
 pub fn can_be_jungseong(letter: &str) -> bool {
     let letter = disassembles(letter);
@@ -52,11 +52,11 @@ pub fn can_be_jungseong(letter: &str) -> bool {
 /// ```rust
 /// use hangul_core::can_be_jongseong;
 ///
-/// assert_eq!(can_be_jongseong('ㄱ'), true);
-/// assert_eq!(can_be_jongseong('ㅏ'), false);
-/// assert_eq!(can_be_jongseong('ㅘ'), false);
-/// assert_eq!(can_be_jongseong('ㄺ'), true);
-/// assert_eq!(can_be_jongseong('ㄹㄱ'), true);
+/// assert_eq!(can_be_jongseong("ㄱ"), true);
+/// assert_eq!(can_be_jongseong("ㅏ"), false);
+/// assert_eq!(can_be_jongseong("ㅘ"), false);
+/// assert_eq!(can_be_jongseong("ㄺ"), true);
+/// assert_eq!(can_be_jongseong("ㄹㄱ"), true);
 /// ```
 pub fn can_be_jongseong(letter: &str) -> bool {
     let letter = disassembles(letter);
