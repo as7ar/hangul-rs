@@ -8,6 +8,7 @@ mod utils;
 
 pub use err::*;
 
+pub use crate::assemble::*;
 pub use crate::combine::*;
 pub use crate::constants::*;
 pub use crate::disassemble::*;

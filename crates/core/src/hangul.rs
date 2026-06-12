@@ -1,7 +1,7 @@
 use crate::{
     can_be_choseong, can_be_jongseong, can_be_jungseong, combine_character, combine_vowels,
-    disassemble_complete_character, disassemble_to_group, disassembles, err::HangulError,
-    export_last_element, has_batchim, remove_last_character, AssembleErr, CHOSEONGS,
+    disassemble_complete_character, disassemble_to_group, err::HangulError, has_batchim,
+    remove_last_character, AssembleErr, CHOSEONGS,
 };
 
 /// `is_hangul_char`는 완전한 한글 문자를 받으면 true를 반환합니다.
