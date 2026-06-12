@@ -5,5 +5,6 @@ pub enum AssembleErr {
     InvalidJungseong,
     InvalidJongseong,
     InvalidUnicode,
+    InvalidHangul,
     JunseongIsRequired,
 }

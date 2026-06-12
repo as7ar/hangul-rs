@@ -1,6 +1,7 @@
 use crate::{
-    can_be_jungseong, combine_character, combine_vowels, disassemble_complete_character,
-    disassembles, err::HangulError, AssembleErr, CHOSEONGS,
+    can_be_choseong, can_be_jongseong, can_be_jungseong, combine_character, combine_vowels,
+    disassemble_complete_character, disassemble_to_group, disassembles, err::HangulError,
+    export_last_element, has_batchim, remove_last_character, AssembleErr, CHOSEONGS,
 };
 
 /// `is_hangul_char`는 완전한 한글 문자를 받으면 true를 반환합니다.
@@ -103,7 +104,7 @@ pub fn get_choseong(words: &str) -> String {
 /// assert_eq!(binary_assemble_alphabets('ㅗ', 'ㅏ').unwrap(), "ㅘ")
 /// ```
 pub fn binary_assemble_alphabets(c1: &str, c2: &str) -> Result<String, AssembleErr> {
-    if can_be_jungseong(format!("{}{}", c1, c2).as_str()) {
+    if can_be_jungseong(&format!("{}{}", c1, c2)) {
         return Ok(combine_vowels(c1, c2));
     }
 
@@ -114,14 +115,128 @@ pub fn binary_assemble_alphabets(c1: &str, c2: &str) -> Result<String, AssembleE
     Ok(format!("{}{}", c1, c2))
 }
 
-pub fn link_hangul_characters(c1: &str, c2: &str) -> Result<String, AssembleErr> {
-    let c1 = disassembles(c1);
-    let c2 = disassembles(c2);
+/// link_hangul_characters는 연음 법칙을 적용하여 두 개의 한글 문자를 연결합니다.
+pub fn link_hangul_characters(source: &str, next_character: &str) -> Result<String, AssembleErr> {
+    let groups = disassemble_to_group(source);
+    let source_jamo = groups.last().ok_or(AssembleErr::InvalidHangul)?;
+    let binding = source_jamo
+        .last()
+        .ok_or(AssembleErr::InvalidHangul)?
+        .to_string();
+    let last_jamo = binding.as_str();
+    let left = remove_last_character(source);
+    let right = combine_character(last_jamo, next_character, None)?;
 
-    Ok(String::new())
+    Ok(format!("{left}{right}"))
 }
-pub fn binary_assemble_characters(c1: &str, c2: &str) {}
-pub fn binary_assemble(c1: &str, c2: &str) {}
+
+/// binary_assemble_characters는 인자로 받은 한글 2개를 합성합니다.
+///
+/// ```rust
+/// use crate::binary_assemble_characters;
+///
+/// assert_eq!(binary_assemble_characters('ㄱ', 'ㅏ').unwrap(), "가".to_string())
+/// assert_eq!(binary_assemble_characters('갑', 'ㅅ').unwrap(), "값".to_string())
+/// ```
+pub fn binary_assemble_characters(c1: char, c2: char) -> Result<String, AssembleErr> {
+    if !is_hangul_char(c1) && !is_hangul_alphabet(c1) {
+        return Err(AssembleErr::InvalidHangul);
+    }
+
+    if !is_hangul_alphabet(c2) {
+        return Err(AssembleErr::InvalidHangul);
+    }
+
+    let s1 = c1.to_string();
+    let s2 = c2.to_string();
+
+    let s1_group = disassemble_to_group(&s1);
+
+    let c1_jamo = s1_group.first().unwrap();
+    if c1_jamo.len() == 1 {
+        let c1_character = c1_jamo.get(0).unwrap();
+        return binary_assemble_alphabets(&c1_character.to_string(), &c2.to_string());
+    }
+
+    let last_jamo = c1_jamo.last().ok_or(AssembleErr::InvalidHangul)?;
+    let rest_jamos = &c1_jamo[..c1_jamo.len() - 1];
+
+    let secondary_last_jamo = if rest_jamos.len() >= 2 {
+        Some(rest_jamos[rest_jamos.len() - 1])
+    } else {
+        None
+    };
+
+    let _need_linking = can_be_choseong(&last_jamo.to_string()) && can_be_jungseong(&s2);
+    if _need_linking {
+        return link_hangul_characters(&s1, &s2);
+    }
+    let choseong = rest_jamos[0].to_string();
+
+    let combined_jungseong = format!("{last_jamo}{c2}");
+
+    if can_be_jungseong(&combined_jungseong) {
+        return combine_character(&choseong, &combined_jungseong, None);
+    }
+
+    if let Some(secondary_last_jamo) = secondary_last_jamo {
+        let merged_vowel = format!("{secondary_last_jamo}{last_jamo}");
+
+        if can_be_jungseong(&merged_vowel) && can_be_jongseong(&s2) {
+            return combine_character(&choseong, &merged_vowel, Some(&s2));
+        }
+    }
+
+    let last_jamo_str = last_jamo.to_string();
+
+    if can_be_jungseong(&last_jamo_str) && can_be_jongseong(&s2) {
+        return combine_character(&choseong, &last_jamo_str, Some(&s2));
+    }
+
+    let vowel = if rest_jamos.len() >= 3 {
+        let merged = format!("{}{}", rest_jamos[1], rest_jamos[2]);
+
+        if can_be_jungseong(&merged) {
+            merged
+        } else {
+            rest_jamos[1].to_string()
+        }
+    } else {
+        rest_jamos[1].to_string()
+    };
+
+    let merged_jongseong = format!("{last_jamo}{c2}");
+
+    if has_batchim(&s1, crate::NumOfBatchim::SINGLE) && can_be_jongseong(&merged_jongseong) {
+        return combine_character(&choseong, &vowel, Some(&merged_jongseong));
+    }
+
+    Ok(format!("{c1}{c2}"))
+}
+
+/// binary_assemble은 인자로 받은 한글 문장과 한글 문자 하나를 합쳐 반환합니다.
+///
+/// ```rust
+/// use hangul_core::binary_assemble;
+///
+/// assert_eq!(binary_assemble("사고","ㅏ").unwrap(), "사과".to_string())
+/// assert_eq!(binary_assemble("저는 고양이를 좋아합닏","ㅏ").unwrap(), "저는 고양이를 좋아합니다".to_string())
+/// ```
+pub fn binary_assemble(c1: &str, c2: &str) -> Result<String, AssembleErr> {
+    let mut chars = c1.chars();
+    let last = chars.next_back().ok_or(AssembleErr::InvalidHangul)?;
+    let rest: String = chars.collect();
+    let next = c2.chars().next().ok_or(AssembleErr::InvalidHangul)?;
+    let need_join = last.is_whitespace() || next.is_whitespace();
+
+    let result = if need_join {
+        format!("{last}{next}")
+    } else {
+        binary_assemble_characters(last, next)?
+    };
+
+    Ok(format!("{rest}{result}"))
+}
 
 #[cfg(test)]
 mod test {
