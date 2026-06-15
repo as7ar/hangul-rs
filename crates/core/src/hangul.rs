@@ -100,8 +100,8 @@ pub fn get_choseong(words: &str) -> String {
 /// ```rust
 /// use hangul_core::binary_assemble_alphabets;
 ///
-/// assert_eq!(binary_assemble_alphabets('ㄱ', 'ㅏ').unwrap(), "가");
-/// assert_eq!(binary_assemble_alphabets('ㅗ', 'ㅏ').unwrap(), "ㅘ");
+/// assert_eq!(binary_assemble_alphabets("ㄱ", "ㅏ").unwrap(), "가");
+/// assert_eq!(binary_assemble_alphabets("ㅗ", "ㅏ").unwrap(), "ㅘ");
 /// ```
 pub fn binary_assemble_alphabets(c1: &str, c2: &str) -> Result<String, AssembleErr> {
     if can_be_jungseong(&format!("{}{}", c1, c2)) {
@@ -133,7 +133,7 @@ pub fn link_hangul_characters(source: &str, next_character: &str) -> Result<Stri
 /// binary_assemble_characters는 인자로 받은 한글 2개를 합성합니다.
 ///
 /// ```rust
-/// use crate::binary_assemble_characters;
+/// use hangul_core::binary_assemble_characters;
 ///
 /// assert_eq!(binary_assemble_characters('ㄱ', 'ㅏ').unwrap(), "가".to_string());
 /// assert_eq!(binary_assemble_characters('갑', 'ㅅ').unwrap(), "값".to_string());

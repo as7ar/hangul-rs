@@ -69,8 +69,8 @@ pub fn can_be_jongseong(letter: &str) -> bool {
 /// ```rust
 /// use hangul_core::remove_last_character;
 ///
-/// assert_eq!(remove_last_character("안녕"), "안녀".to_string())
-/// assert_eq!(remove_last_character("안녕, 세상"), "안녕, 세사".to_string())
+/// assert_eq!(remove_last_character("안녕"), "안녀".to_string());
+/// assert_eq!(remove_last_character("안녕, 세상"), "안녕, 세사".to_string());
 /// ```
 pub fn remove_last_character(words: &str) -> String {
     let Some(last_char) = words.chars().last() else {
@@ -141,11 +141,11 @@ pub enum NumOfBatchim {
 /// has_batchim은 한글 문자열 마지막에 받침이 있는 지 확인합니다.
 ///
 /// ```rust
-/// use hangul_core::{has_batchim, NumofBatchim};
+/// use hangul_core::{has_batchim, NumOfBatchim};
 ///
-/// assert_eq!(has_batchim("값", NumOfBatchim::SINGLE), false)
-/// assert_eq!(has_batchim("값", NumOfBatchim::DOUBLE), true)
-/// assert_eq!(has_batchim("가", NumOfBatchim::SINGLE), false)
+/// assert_eq!(has_batchim("값", NumOfBatchim::SINGLE), false);
+/// assert_eq!(has_batchim("값", NumOfBatchim::DOUBLE), true);
+/// assert_eq!(has_batchim("가", NumOfBatchim::SINGLE), false);
 /// ```
 pub fn has_batchim(str: &str, num: NumOfBatchim) -> bool {
     let chars = str.chars();
@@ -159,7 +159,7 @@ pub fn has_batchim(str: &str, num: NumOfBatchim) -> bool {
 
     let batchim_code =
         ((char_code - COMPLETE_HANGUL_START_CHARCODE) as usize) % NUMBER_OF_JONGSEONG;
-    let batchim_length = JONGSEONGS.get(batchim_code).iter().len();
+    let batchim_length = JONGSEONGS.get(batchim_code).map(|s| s.chars().count()).unwrap_or(0);
 
     return match num {
         NumOfBatchim::SINGLE => batchim_length == 1,

@@ -13,8 +13,14 @@ pub fn disassemble_to_group(str: &str) -> Vec<Vec<char>> {
     let mut result: Vec<Vec<char>> = Vec::new();
 
     for l in letters {
+        if l.is_whitespace() {
+            result.push(vec![l]);
+            continue;
+        }
+
         if let Some(disassembled) = disassemble_complete_character(l) {
             result.push(disassembled.to_vec());
+            continue;
         }
 
         if is_hangul_alphabet(l) {
