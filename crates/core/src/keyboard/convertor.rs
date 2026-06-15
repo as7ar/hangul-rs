@@ -1,5 +1,5 @@
 use crate::{
-    assemble,
+    assemble, disassembles,
     keyboard::constants::{hangul_to_qwerty, qwerty_to_hangul},
     AssembleErr,
 };
@@ -12,8 +12,9 @@ use crate::{
 /// assert_eq!(convert_hangul_to_qwerty("겨노"), "rush".to_string());
 /// ```
 pub fn convert_hangul_to_qwerty(word: &str) -> String {
+    let disassembled = disassembles(word);
     let mut result = String::new();
-    for c in word.chars() {
+    for c in disassembled.chars() {
         let converted = hangul_to_qwerty(c).unwrap();
         result.push(converted);
     }
