@@ -4,6 +4,7 @@ pub mod constants;
 mod disassemble;
 mod err;
 mod hangul;
+pub mod keyboard;
 mod utils;
 
 pub use err::*;
