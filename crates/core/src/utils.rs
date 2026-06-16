@@ -136,6 +136,7 @@ pub fn remove_last_character(words: &str) -> String {
 pub enum NumOfBatchim {
     SINGLE,
     DOUBLE,
+    ANY,
 }
 
 /// has_batchim은 한글 문자열 마지막에 받침이 있는 지 확인합니다.
@@ -159,7 +160,10 @@ pub fn has_batchim(str: &str, num: NumOfBatchim) -> bool {
 
     let batchim_code =
         ((char_code - COMPLETE_HANGUL_START_CHARCODE) as usize) % NUMBER_OF_JONGSEONG;
-    let batchim_length = JONGSEONGS.get(batchim_code).map(|s| s.chars().count()).unwrap_or(0);
+    let batchim_length = JONGSEONGS
+        .get(batchim_code)
+        .map(|s| s.chars().count())
+        .unwrap_or(0);
 
     return match num {
         NumOfBatchim::SINGLE => batchim_length == 1,
