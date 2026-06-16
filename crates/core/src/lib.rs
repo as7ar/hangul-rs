@@ -6,6 +6,7 @@ mod err;
 mod hangul;
 mod josa;
 pub mod keyboard;
+mod numbers;
 mod utils;
 
 pub use err::*;
