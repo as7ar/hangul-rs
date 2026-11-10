@@ -56,8 +56,7 @@ pub const HANGUL_DIGITS_MAX: usize = HANGUL_DIGITS.len() * 4;
 
 pub const HANGUL_NUMBERS: [&str; 10] = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
 
-pub const HANGUL_NUMBERS_FOR_DECIMAL: [&str; 10] =
-    ["영", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
+pub const HANGUL_NUMBERS_FOR_DECIMAL: [&str; 10] = ["영", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
 
 pub const HANGUL_CARDINAL: [&str; 4] = ["", "십", "백", "천"];
 

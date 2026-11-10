@@ -227,7 +227,9 @@ pub fn binary_assemble(c1: &str, c2: &str) -> Result<String, AssembleErr> {
     let last = chars.next_back().ok_or(AssembleErr::InvalidHangul)?;
     let rest: String = chars.collect();
     let next = c2.chars().next().ok_or(AssembleErr::InvalidHangul)?;
-    let need_join = last.is_whitespace() || next.is_whitespace();
+    let need_join = last.is_whitespace() || next.is_whitespace()
+        || (!is_hangul_alphabet(last) || !is_hangul_char(last))
+        || !is_hangul_alphabet(next);
 
     let result = if need_join {
         format!("{last}{next}")
